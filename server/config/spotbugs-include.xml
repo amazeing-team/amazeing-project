@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://github.com/spotbugs/filter/3.0.0"
+    xsi:schemaLocation="https://github.com/spotbugs/filter/3.0.0 https://raw.githubusercontent.com/spotbugs/spotbugs/3.1.0/spotbugs/etc/findbugsfilter.xsd">
+
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html -->
+
+  <!-- Bad Practice -->
+  <!-- Violations of recommended and essential coding practice. Examples include hash code and equals problems,
+       cloneable idiom, dropped exceptions, Serializable problems, and misuse of finalize. We strive to make this
+       analysis accurate, although some groups may not care about some of the bad practices. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#bad-practice-bad-practice -->
+  <Match>
+    <Bug category="BAD_PRACTICE"
+        code="BC,BIT,CN,Co,DE,DMI,Dm,ES,Eq,FI,GC,HE,IC,IMSE,ISC,It,ME,NP,Nm,OS,PZ,RC,RR,RV,SI,SW,Se,SnVI,UI"/>
+  </Match>
+
+  <!-- Correctness -->
+  <!-- Probable bug - an apparent coding mistake resulting in code that was probably not what the developer intended.
+       We strive for a low false positive rate. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#correctness-correctness -->
+  <Match>
+    <Bug category="CORRECTNESS"/>
+    <Not>
+      <Bug code="HES"/>
+    </Not>
+  </Match>
+
+  <!-- Experimental -->
+  <!-- Experimental and not fully vetted bug patterns. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#experimental-experimental -->
+  <Match>
+    <Bug category="EXPERIMENTAL"/>
+  </Match>
+
+  <!-- Internationalization -->
+  <!-- Code flaws having to do with internationalization and locale. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#internationalization-i18n -->
+  <Match>
+    <Bug category="I18N"/>
+  </Match>
+
+  <!-- Malicious code vulnerability -->
+  <!-- Code that is vulnerable to attacks from untrusted code. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#malicious-code-vulnerability-malicious-code -->
+  <Match>
+    <Bug category="MALICIOUS_CODE"/>
+  </Match>
+
+  <!-- Multithreaded correctness -->
+  <!-- Code flaws having to do with threads, locks, and volatiles. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#multithreaded-correctness-mt-correctness -->
+  <Match>
+    <Bug category="MT_CORRECTNESS"/>
+    <Not>
+      <Bug code="HES"/>
+    </Not>
+  </Match>
+
+  <!-- Bogus random noise -->
+  <!-- Intended to be useful as a control in data mining experiments, not in finding actual bugs in software-->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#bogus-random-noise-noise -->
+  <Match>
+    <Bug category="NOISE"/>
+  </Match>
+
+  <!-- Performance -->
+  <!-- Code that is not necessarily incorrect but may be inefficient. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#performance-performance -->
+  <Match>
+    <Bug category="PERFORMANCE"
+        pattern="DM_GC"/>
+  </Match>
+
+  <!-- Security -->
+  <!-- A use of untrusted input in a way that could create a remotely exploitable security vulnerability. -->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#security-security -->
+  <Match>
+    <Bug category="SECURITY"/>
+    <Not>
+      <Bug pattern="PREDICTABLE_RANDOM"/>
+    </Not>
+  </Match>
+
+  <!-- Dodgy code -->
+  <!-- Code that is confusing, anomalous, or written in a way that leads itself to errors. Examples include
+       dead local stores, switch fall through, unconfirmed casts, and redundant null check of value known to be null.
+       More false positives accepted.-->
+  <!-- https://spotbugs.readthedocs.io/en/stable/bugDescriptions.html#dodgy-code-style -->
+  <Match>
+    <Bug category="STYLE"
+        code="BC,BSHIFT,CI,DB,DMI,Dm,Eq,FE,IC,ICAST,IM,INT,NP,NS,PZLA,QF,RCN,REC,RI,RV,SA,ST,Se,TQ,UC,UrF,UuF,UwF,UwF"/>
+    <Not>
+      <Bug pattern="RV_RETURN_VALUE_IGNORED_INFERRED"/>
+    </Not>
+  </Match>
+
+</FindBugsFilter>

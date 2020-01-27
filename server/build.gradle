@@ -1,0 +1,222 @@
+plugins {
+    id "java"
+    id "pmd"
+    id "jacoco"
+    id "checkstyle"
+    id "de.jansauer.printcoverage" version "2.0.0"
+    id "com.github.spotbugs" version "2.0.1"
+}
+
+group "project26"
+version = 0.5
+sourceCompatibility = 1.11
+
+if (!JavaVersion.current().isJava11Compatible())
+    throw new GradleException("REQUIRES JAVA 11")
+
+wrapper {
+    gradleVersion = "5.6.4"
+    doLast {
+        println gradle.gradleHomeDir
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "src/main/java"
+        }
+        resources {
+            srcDir "src/main/resources"
+            srcDir "config/"
+        }
+    }
+    test {
+        java {
+            srcDir "src/test/java"
+        }
+        resources {
+            srcDir "src/test/resources"
+        }
+        compileClasspath += sourceSets.main.output
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    compile("org.slf4j:slf4j-api:2.0.0-alpha1")
+    runtimeOnly("org.slf4j:slf4j-simple:2.0.0-alpha1")
+    compile("commons-cli:commons-cli:1.4")
+    compile("org.apache.commons:commons-lang3:3.0")
+    compile("com.google.guava:guava:11.0.2")
+    compile("com.google.code.gson:gson:2.7")
+    compile("org.jetbrains:annotations:16.0.2")
+    compile("net.jcip:jcip-annotations:1.0")
+    compile("com.github.spotbugs:spotbugs-annotations:3.1.12")
+    compile("org.xerial:sqlite-jdbc:3.7.2")
+    compile("org.java-websocket:Java-WebSocket:1.4.0")
+
+    testCompile("org.mockito:mockito-core:3.1.0")
+    testCompile("org.junit.jupiter:junit-jupiter-api:5.6.0-M1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0-M1")
+    testCompile("org.junit.jupiter:junit-jupiter:5.6.0-M1")
+    testCompile("org.skyscreamer:jsonassert:1.5.0")
+
+    spotbugsPlugins("com.mebigfatguy.sb-contrib:sb-contrib:7.4.7")
+    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.10.1")
+    checkstyle("com.puppycrawl.tools:checkstyle:8.26")
+
+    compile(fileTree(dir: "libs/external", include: ["*.jar"]))
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.compilerArgs.add("-Xlint:all")
+    options.compilerArgs.add("-Werror")
+    sourceCompatibility = 11
+    targetCompatibility = 11
+}
+build {
+    dependsOn(check)
+    dependsOn(javadoc)
+}
+
+pmd {
+    toolVersion = "6.17.0"
+    ignoreFailures = false
+}
+tasks.withType(Pmd) {
+    reports {
+        html.enabled = true
+    }
+    ruleSetFiles = files("${projectDir}/config/pmd.xml")
+    ruleSets = []
+}
+
+printcoverage {
+    coverageType = "INSTRUCTION"
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+tasks.withType(JacocoReport) {
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
+        html.destination = file("${buildDir}/reports/jacoco")
+    }
+    finalizedBy("printCoverage")
+}
+
+tasks.withType(Test) {
+    testClassesDirs = sourceSets.main.output.classesDirs + sourceSets.test.output.classesDirs
+    classpath = sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams true
+    }
+    ignoreFailures = false
+    finalizedBy("jacocoTestReport")
+}
+test {
+    dependsOn(cleanTest)
+    useJUnitPlatform {
+        excludeTags "integration", "parameterized"
+    }
+}
+
+task allTest(type: Test) {
+    dependsOn(cleanAllTest)
+    useJUnitPlatform {
+    }
+    ignoreFailures = true
+}
+
+task integrationTest(type: Test) {
+    dependsOn(cleanIntegrationTest)
+    useJUnitPlatform {
+        includeTags "integration", "parameterized"
+    }
+}
+
+checkstyle {
+    toolVersion = "8.26"
+    ignoreFailures = true
+}
+tasks.withType(Checkstyle) {
+    reports {
+        html.enabled = true
+        xml.enabled = false
+    }
+    configFile file("${projectDir}/config/checkstyle-configuration.xml")
+    configProperties = ["suppressionFile": file("${projectDir}/config/checkstyle-suppression.xml")]
+}
+
+spotbugs {
+    toolVersion = "3.1.12"
+    ignoreFailures = false
+    effort = "max"
+    includeFilter = file("${projectDir}/config/spotbugs-include.xml")
+    excludeFilter = file("${projectDir}/config/spotbugs-exclude.xml")
+}
+ext {
+    SpotBugsTask = com.github.spotbugs.SpotBugsTask
+}
+tasks.withType(SpotBugsTask) {
+    reports {
+        html.enabled = true
+        xml.enabled = false
+    }
+    pluginClasspath = project.configurations.spotbugsPlugins
+    classpath = sourceSets.main.output + configurations.compile + configurations.runtime + sourceSets.test.output + configurations.testCompile + configurations.testRuntime
+}
+
+javadoc {
+    options.encoding = "UTF-8"
+    options.addBooleanOption("html5", true)
+    options.destinationDirectory = file("${buildDir}/reports/javadoc")
+    doLast {
+        copy {
+            from "${buildDir}/reports/javadoc"
+            into "${projectDir}/docs/"
+        }
+
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                "Main-Class": "amazing.Main",
+                "Entry-Point": "amazing.Main",
+                "Implementation-Title": "aMAZEing",
+                "Application-Name": "aMAZEing",
+                "Implementation-Version": project.version,
+        )
+    }
+    archivesBaseName = project.name
+    from "${projectDir}/config/simplelogger.properties"
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    doLast {
+        copy {
+            from jar
+            into "${projectDir}/libs/"
+        }
+
+    }
+}
+
+task getHomeDir {
+    doLast {
+        println gradle.gradleHomeDir
+    }
+}

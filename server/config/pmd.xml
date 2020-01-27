@@ -1,0 +1,1908 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ruleset
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Basic"
+    xmlns="https://pmd.sourceforge.net/ruleset/2.0.0"
+    xsi:schemaLocation="https://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+  <description>
+    Basic rule set based on rules at https://pmd.github.io/latest/pmd_rules_java.html
+  </description>
+
+  <exclude-pattern>.*/antlr/.*</exclude-pattern>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_bestpractices.html-->
+  <rule ref="category/java/bestpractices.xml">
+    <!-- The abstract class does not contain any abstract methods. An abstract class suggests an incomplete implementation, which is to be completed by subclasses implementing the abstract methods. If the class is intended to be used as a base class only (not to be instantiated directly) a protected constructor can be provided prevent direct instantiation. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#abstractclasswithoutabstractmethod -->
+    <!-- <exclude name="AbstractClassWithoutAbstractMethod"/> -->
+
+    <!-- Instantiation by way of private constructors from outside of the constructor’s class often causes the generation of an accessor. A factory method, or non-privatization of the constructor can eliminate this situation. The generated class file is actually an interface.  It gives the accessing class the ability to invoke a new hidden package scope constructor that takes the interface as a supplementary parameter. This turns a private constructor effectively into one with package scope, and is challenging to discern. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#accessorclassgeneration -->
+    <!-- <exclude name="AccessorClassGeneration"/> -->
+
+    <!-- When accessing a private field / method from another class, the Java compiler will generate a accessor methods with package-private visibility. This adds overhead, and to the dex method count on Android. This situation can be avoided by changing the visibility of the field / method from private to package-private. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.5.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#accessormethodgeneration -->
+    <!-- <exclude name="AccessorMethodGeneration"/> -->
+
+    <!-- Constructors and methods receiving arrays should clone objects and store the copy. This prevents future changes from the user from affecting the original array. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#arrayisstoreddirectly -->
+    <exclude name="ArrayIsStoredDirectly"/>
+
+    <!-- Declaring a MessageDigest instance as a field make this instance directly available to multiple threads. Such sharing of MessageDigest instances should be avoided if possible since it leads to wrong results if the access is not synchronized correctly. Just create a new instance and use it locally, where you need it. Creating a new instance is easier than synchronizing access to a shared instance. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.18.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#avoidmessagedigestfield -->
+    <!-- <exclude name="AvoidMessageDigestField"/> -->
+
+    <!-- Avoid printStackTrace(); use a logger call instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#avoidprintstacktrace -->
+    <!-- <exclude name="AvoidPrintStackTrace"/> -->
+
+    <!-- Reassigning loop variables can lead to hard-to-find bugs. Prevent or limit how these variables can be changed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.11.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#avoidreassigningloopvariables -->
+    <exclude name="AvoidReassigningLoopVariables"/>
+
+    <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+
+
+    <!-- Reassigning values to incoming parameters is not recommended.  Use temporary local variables instead. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#avoidreassigningparameters -->
+    <exclude name="AvoidReassigningParameters"/>
+
+    <!-- StringBuffers/StringBuilders can grow considerably, and so may become a source of memory leaks if held within objects with long lifetimes. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#avoidstringbufferfield -->
+    <!-- <exclude name="AvoidStringBufferField"/> -->
+
+    <!-- Application with hard-coded IP addresses can become impossible to deploy in some cases. Externalizing IP adresses is preferable. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#avoidusinghardcodedip -->
+    <!-- <exclude name="AvoidUsingHardCodedIP"/> -->
+
+    <!-- Always check the return values of navigation methods (next, previous, first, last) of a ResultSet. If the value return is ‘false’, it should be handled properly. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#checkresultset -->
+    <!-- <exclude name="CheckResultSet"/> -->
+
+    <!-- Avoid constants in interfaces. Interfaces should define types, constants are implementation details better placed in classes or enums. See Effective Java, item 19. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#constantsininterface -->
+    <!-- <exclude name="ConstantsInInterface"/> -->
+
+    <!-- By convention, the default label should be the last label in a switch statement. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#defaultlabelnotlastinswitchstmt -->
+    <!-- <exclude name="DefaultLabelNotLastInSwitchStmt"/> -->
+
+    <!-- Double brace initialisation is a pattern to initialise eg collections concisely. But it implicitly generates a new .class file, and the object holds a strong reference to the enclosing object. For those reasons, it is preferable to initialize the object normally, even though it’s verbose. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.16.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#doublebraceinitialization -->
+    <!-- <exclude name="DoubleBraceInitialization"/> -->
+
+    <!-- Minimum Language Version: Java 1.5 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.0.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#forloopcanbeforeach -->
+    <!-- <exclude name="ForLoopCanBeForeach"/> -->
+
+    <!-- Having a lot of control variables in a ‘for’ loop makes it harder to see what range of values the loop iterates over. By default this rule allows a regular ‘for’ loop with only one variable. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.11.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#forloopvariablecount -->
+    <!-- <exclude name="ForLoopVariableCount"/> -->
+
+    <!-- Whenever using a log level, one should check if the loglevel is actually enabled, or otherwise skip the associate String creation and manipulation. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 5.1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#guardlogstatement -->
+    <!-- <exclude name="GuardLogStatement"/> -->
+
+    <!-- In JUnit 3, test suites are indicated by the suite() method. In JUnit 4, suites are indicated through the @RunWith(Suite.class) annotation. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junit4suitesshouldusesuiteannotation -->
+    <!-- <exclude name="JUnit4SuitesShouldUseSuiteAnnotation"/> -->
+
+    <!-- In JUnit 3, the tearDown method was used to clean up all data entities required in running tests.  JUnit 4 skips the tearDown method and executes all methods annotated with @After after running each test. JUnit 5 introduced @AfterEach and @AfterAll annotations to execute methods after each test or after all tests in the class, respectively. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junit4testshoulduseafterannotation -->
+    <!-- <exclude name="JUnit4TestShouldUseAfterAnnotation"/> -->
+
+    <!-- In JUnit 3, the setUp method was used to set up all data entities required in running tests.  JUnit 4 skips the setUp method and executes all methods annotated with @Before before all tests. JUnit 5 introduced @BeforeEach and @BeforeAll annotations to execute methods before each test or before all tests in the class, respectively. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junit4testshouldusebeforeannotation -->
+    <exclude name="JUnit4TestShouldUseBeforeAnnotation"/>
+
+    <!-- In JUnit 3, the framework executed all methods which started with the word test as a unit test.  In JUnit 4, only methods annotated with the @Test annotation are executed. In JUnit 5, one of the following annotations should be used for tests: @Test, @RepeatedTest, @TestFactory, @TestTemplate or @ParameterizedTest. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junit4testshouldusetestannotation -->
+    <!-- <exclude name="JUnit4TestShouldUseTestAnnotation"/> -->
+
+    <!-- JUnit assertions should include an informative message - i.e., use the three-argument version of  assertEquals(), not the two-argument version. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junitassertionsshouldincludemessage -->
+    <exclude name="JUnitTestContainsTooManyAsserts"/>
+
+    <!-- Unit tests should not contain too many asserts. Many asserts are indicative of a complex test, for which  it is harder to verify correctness.  Consider breaking the test scenario into multiple, shorter test scenarios. Customize the maximum number of assertions used by this Rule to suit your needs. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junittestcontainstoomanyasserts -->
+    <exclude name="JUnitTestsShouldIncludeAssert"/>
+
+    <!-- JUnit tests should include at least one assertion.  This makes the tests more robust, and using assert  with messages provide the developer a clearer idea of what the test does. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junittestsshouldincludeassert -->
+    <exclude name="UseVarargs"/>
+
+    <!-- In JUnit4, use the @Test(expected) annotation to denote tests that should throw exceptions. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#junituseexpected -->
+    <!-- <exclude name="JUnitUseExpected"/> -->
+
+    <!-- The use of implementation types (i.e., HashSet) as object references limits your ability to use alternate implementations in the future as requirements change. Whenever available, referencing objects by their interface types (i.e, Set) provides much more flexibility. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.7 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#loosecoupling -->
+    <!-- <exclude name="LooseCoupling"/> -->
+
+    <!-- Exposing internal arrays to the caller violates object encapsulation since elements can be  removed or replaced outside of the object that owns it. It is safer to return a copy of the array. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#methodreturnsinternalarray -->
+    <!-- <exclude name="MethodReturnsInternalArray"/> -->
+
+    <!-- Minimum Language Version: Java 1.5 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#missingoverride -->
+    <!-- <exclude name="MissingOverride"/> -->
+
+    <!-- Java allows the use of several variables declaration of the same type on one line. However, it can lead to quite messy code. This rule looks for several declarations on the same line. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#onedeclarationperline -->
+    <exclude name="OneDeclarationPerLine"/>
+
+    <!-- Position literals first in comparisons, if the second argument is null then NullPointerExceptions can be avoided, they will just return false. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#positionliteralsfirstincaseinsensitivecomparisons -->
+    <!-- <exclude name="PositionLiteralsFirstInCaseInsensitiveComparisons"/> -->
+
+    <!-- Position literals first in comparisons, if the second argument is null then NullPointerExceptions can be avoided, they will just return false. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#positionliteralsfirstincomparisons -->
+    <!-- <exclude name="PositionLiteralsFirstInComparisons"/> -->
+
+    <!-- Throwing a new exception from a catch block without passing the original exception into the new exception will cause the original stack trace to be lost making it difficult to debug effectively. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.7 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#preservestacktrace -->
+    <!-- <exclude name="PreserveStackTrace"/> -->
+
+    <!-- Consider replacing Enumeration usages with the newer java.util.Iterator -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#replaceenumerationwithiterator -->
+    <!-- <exclude name="ReplaceEnumerationWithIterator"/> -->
+
+    <!-- Consider replacing Hashtable usage with the newer java.util.Map if thread safety is not required. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#replacehashtablewithmap -->
+    <!-- <exclude name="ReplaceHashtableWithMap"/> -->
+
+    <!-- Consider replacing Vector usages with the newer java.util.ArrayList if expensive thread-safe operations are not required. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#replacevectorwithlist -->
+    <!-- <exclude name="ReplaceVectorWithList"/> -->
+
+    <!-- All switch statements should include a default option to catch any unspecified values. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#switchstmtsshouldhavedefault -->
+    <!-- <exclude name="SwitchStmtsShouldHaveDefault"/> -->
+
+    <!-- References to System.(out|err).print are usually intended for debugging purposes and can remain in the codebase even in production code. By using a logger one can enable/disable this behaviour at will (and by priority) and avoid clogging the Standard out log. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 2.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#systemprintln -->
+    <!-- <exclude name="SystemPrintln"/> -->
+
+    <!-- Avoid passing parameters to methods or constructors without actually referencing them in the method body.  Removing unused formal parameters from public methods could cause a ripple effect through the code base.  Hence, by default, this rule only considers private methods. To include non-private methods, set the checkAll property to true. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#unusedformalparameter -->
+    <!-- <exclude name="UnusedFormalParameter"/> -->
+
+    <!-- Avoid unused import statements to prevent unwanted dependencies. This rule will also find unused on demand imports, i.e. import com.foo.*. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#unusedimports -->
+    <!-- <exclude name="UnusedImports"/> -->
+
+    <!-- Detects when a local variable is declared and/or assigned, but not used. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#unusedlocalvariable -->
+    <!-- <exclude name="UnusedLocalVariable"/> -->
+
+    <!-- Detects when a private field is declared and/or assigned a value, but not used. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#unusedprivatefield -->
+    <!-- <exclude name="UnusedPrivateField"/> -->
+
+    <!-- Unused Private Method detects when a private method is declared but is unused. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.7 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#unusedprivatemethod -->
+    <!-- <exclude name="UnusedPrivateMethod"/> -->
+
+    <!-- This rule detects JUnit assertions in object equality. These assertions should be made by more specific methods, like assertEquals. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#useassertequalsinsteadofasserttrue -->
+    <!-- <exclude name="UseAssertEqualsInsteadOfAssertTrue"/> -->
+
+    <!-- This rule detects JUnit assertions in object references equality. These assertions should be made by  more specific methods, like assertNull, assertNotNull. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#useassertnullinsteadofasserttrue -->
+    <!-- <exclude name="UseAssertNullInsteadOfAssertTrue"/> -->
+
+    <!-- This rule detects JUnit assertions in object references equality. These assertions should be made  by more specific methods, like assertSame, assertNotSame. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#useassertsameinsteadofasserttrue -->
+    <!-- <exclude name="UseAssertSameInsteadOfAssertTrue"/> -->
+
+    <!-- When asserting a value is the same as a literal or Boxed boolean, use assertTrue/assertFalse, instead of assertEquals. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#useasserttrueinsteadofassertequals -->
+    <!-- <exclude name="UseAssertTrueInsteadOfAssertEquals"/> -->
+
+    <!-- The isEmpty() method on java.util.Collection is provided to determine if a collection has any elements. Comparing the value of size() to 0 does not convey intent as well as the isEmpty() method. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#usecollectionisempty -->
+    <!-- <exclude name="UseCollectionIsEmpty"/> -->
+
+    <!-- Minimum Language Version: Java 1.7 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.12.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#usetrywithresources -->
+    <!-- <exclude name="UseTryWithResources"/> -->
+
+    <!-- Minimum Language Version: Java 1.5 -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#usevarargs -->
+    <rule ref="category/java/bestpractices.xml/AvoidReassigningLoopVariables">
+      <properties>
+        <property name="foreachReassign" value="allow"/>
+        <property name="forReassign" value="allow"/>
+      </properties>
+    </rule>
+
+    <!-- do {} while (true); requires reading the end of the statement before it is apparent that it loops forever, whereas while (true) {} is easier to understand. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.13.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_bestpractices.html#whileloopwithliteralboolean -->
+    <!-- <exclude name="WhileLoopWithLiteralBoolean"/> -->
+  </rule>
+  <rule ref="category/java/bestpractices.xml/JUnitTestContainsTooManyAsserts">
+    <properties>
+      <property name="maximumAsserts" value="16"/>
+    </properties>
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_codestyle.html-->
+  <rule ref="category/java/codestyle.xml">
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.4 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#abstractnaming -->
+    <exclude name="AbstractNaming"/>
+
+    <!-- Each non-static class should declare at least one constructor. Classes with solely static members are ignored, refer to UseUtilityClassRule to detect those. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#atleastoneconstructor -->
+    <exclude name="AtLeastOneConstructor"/>
+
+    <!-- Avoid using dollar signs in variable/method/class/interface names. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#avoiddollarsigns -->
+    <!-- <exclude name="AvoidDollarSigns"/> -->
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#avoidfinallocalvariable -->
+    <exclude name="AvoidFinalLocalVariable"/>
+
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#avoidprefixingmethodparameters -->
+    <exclude name="AvoidPrefixingMethodParameters"/>
+
+    <!-- Do not use protected fields in final classes since they cannot be subclassed. Clarify your intent by using private or package access modifiers instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#avoidprotectedfieldinfinalclass -->
+    <!-- <exclude name="AvoidProtectedFieldInFinalClass"/> -->
+
+    <!-- Do not use protected methods in most final classes since they cannot be subclassed. This should only be allowed in final classes that extend other classes with protected methods (whose visibility cannot be reduced). Clarify your intent by using private or package access modifiers instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#avoidprotectedmethodinfinalclassnotextending -->
+    <!-- <exclude name="AvoidProtectedMethodInFinalClassNotExtending"/> -->
+
+    <!-- Unnecessary reliance on Java Native Interface (JNI) calls directly reduces application portability and increases the maintenance burden. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#avoidusingnativecode -->
+    <!-- <exclude name="AvoidUsingNativeCode"/> -->
+
+    <!-- Methods that return boolean results should be named as predicate statements to denote this. I.e, ‘isReady()’, ‘hasValues()’, ‘canCommit()’, ‘willFail()’, etc.   Avoid the use of the ‘get’ prefix for these methods. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#booleangetmethodname -->
+    <exclude name="BooleanGetMethodName"/>
+
+    <!-- It is a good practice to call super() in a constructor. If super() is not called but another constructor (such as an overloaded constructor) is called, this rule will not report it. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#callsuperinconstructor -->
+    <exclude name="CallSuperInConstructor"/>
+
+    <!-- Configurable naming conventions for type declarations. This rule reports type declarations which do not match the regex that applies to their specific kind (e.g. enum or interface). Each regex can be configured through properties. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#classnamingconventions -->
+    <exclude name="ClassNamingConventions"/>
+
+    <!-- To avoid mistakes if we want that an Annotation, Class, Enum, Method, Constructor or Field have a default access modifier we must add a comment at the beginning of it’s declaration. By default the comment must be /* default */ or /* package */, if you want another, you have to provide a regular expression. This rule ignores by default all cases that have a @VisibleForTesting annotation. Use the property "ignoredAnnotations" to customize the recognized annotations. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#commentdefaultaccessmodifier -->
+    <exclude name="CommentDefaultAccessModifier"/>
+
+    <!-- Avoid negation within an "if" expression with an "else" clause.  For example, rephrase: if (x != y) diff(); else same(); as: if (x == y) same(); else diff();. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#confusingternary -->
+    <exclude name="ConfusingTernary"/>
+
+    <!-- Enforce a policy for braces on control statements. It is recommended to use braces on ‘if … else’ statements and loop statements, even if they are optional. This usually makes the code clearer, and helps prepare the future when you need to add another statement. That said, this rule lets you control which statements are required to have braces via properties. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#controlstatementbraces -->
+    <exclude name="ControlStatementBraces"/>
+
+    <!-- Use explicit scoping instead of accidental usage of default package private level. The rule allows methods and fields annotated with Guava’s @VisibleForTesting. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#defaultpackage -->
+    <exclude name="DefaultPackage"/>
+
+    <!-- Avoid importing anything from the package ‘java.lang’.  These classes are automatically imported (JLS 7.5.3). -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 0.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#dontimportjavalang -->
+    <!-- <exclude name="DontImportJavaLang"/> -->
+
+    <!-- Duplicate or overlapping import statements should be avoided. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 0.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#duplicateimports -->
+    <!-- <exclude name="DuplicateImports"/> -->
+
+    <!-- Empty or auto-generated methods in an abstract class should be tagged as abstract. This helps to remove their inapproprate usage by developers who should be implementing their own versions in the concrete subclasses. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#emptymethodinabstractclassshouldbeabstract -->
+    <!-- <exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/> -->
+
+    <!-- No need to explicitly extend Object. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#extendsobject -->
+    <!-- <exclude name="ExtendsObject"/> -->
+
+    <!-- Fields should be declared at the top of the class, before any method declarations, constructors, initializers or inner classes. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#fielddeclarationsshouldbeatstartofclass -->
+    <!-- <exclude name="FieldDeclarationsShouldBeAtStartOfClass"/> -->
+
+    <!-- Configurable naming conventions for field declarations. This rule reports variable declarations which do not match the regex that applies to their specific kind —e.g. constants (static final), enum constant, final field. Each regex can be configured through properties. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 6.7.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#fieldnamingconventions -->
+    <!-- <exclude name="FieldNamingConventions"/> -->
+
+    <!-- Some for loops can be simplified to while loops, this makes them more concise. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.02 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#forloopshouldbewhileloop -->
+    <exclude name="ForLoopShouldBeWhileLoop"/>
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.7 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#forloopsmustusebraces -->
+    <!-- <exclude name="ForLoopsMustUseBraces"/> -->
+
+    <!-- Configurable naming conventions for formal parameters of methods and lambdas. This rule reports formal parameters which do not match the regex that applies to their specific kind (e.g. lambda parameter, or final formal parameter). Each regex can be configured through properties. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 6.6.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#formalparameternamingconventions -->
+    <!-- <exclude name="FormalParameterNamingConventions"/> -->
+
+    <!-- Names for references to generic values should be limited to a single uppercase letter. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#genericsnaming -->
+    <!-- <exclude name="GenericsNaming"/> -->
+
+    <!-- Minimum Language Version: Java 1.7 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#identicalcatchbranches -->
+    <!-- <exclude name="IdenticalCatchBranches"/> -->
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.2 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#ifelsestmtsmustusebraces -->
+    <!-- <exclude name="IfElseStmtsMustUseBraces"/> -->
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#ifstmtsmustusebraces -->
+    <!-- <exclude name="IfStmtsMustUseBraces"/> -->
+
+    <!-- This rule finds Linguistic Naming Antipatterns. It checks for fields, that are named, as if they should be boolean but have a different type. It also checks for methods, that according to their name, should return a boolean, but don’t. Further, it checks, that getters return something and setters won’t. Finally, it checks that methods, that start with "to" - so called transform methods - actually return something, since according to their name, they should convert or transform one object into another. There is additionally an option, to check for methods that contain "To" in their name - which are also transform methods. However, this is disabled by default, since this detection is prone to false positives. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.7.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#linguisticnaming -->
+    <!-- <exclude name="LinguisticNaming"/> -->
+
+    <!-- The Local Home interface of a Session EJB should be suffixed by ‘LocalHome’. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#localhomenamingconvention -->
+    <!-- <exclude name="LocalHomeNamingConvention"/> -->
+
+    <!-- The Local Interface of a Session EJB should be suffixed by ‘Local’. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#localinterfacesessionnamingconvention -->
+    <!-- <exclude name="LocalInterfaceSessionNamingConvention"/> -->
+
+    <!-- A local variable assigned only once can be declared final. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#localvariablecouldbefinal -->
+    <!-- <exclude name="LocalVariableCouldBeFinal"/> -->
+
+    <!-- Configurable naming conventions for local variable declarations and other locally-scoped variables. This rule reports variable declarations which do not match the regex that applies to their specific kind (e.g. final variable, or catch-clause parameter). Each regex can be configured through properties. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 6.6.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#localvariablenamingconventions -->
+    <!-- <exclude name="LocalVariableNamingConventions"/> -->
+
+    <!-- Fields, formal arguments, or local variable names that are too long can make the code difficult to follow. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#longvariable -->
+    <exclude name="LongVariable"/>
+
+    <!-- The EJB Specification states that any MessageDrivenBean or SessionBean should be suffixed by ‘Bean’. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#mdbandsessionbeannamingconvention -->
+    <!-- <exclude name="MDBAndSessionBeanNamingConvention"/> -->
+
+    <!-- A method argument that is never re-assigned within the method can be declared final. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#methodargumentcouldbefinal -->
+    <!-- <exclude name="MethodArgumentCouldBeFinal"/> -->
+
+    <!-- Configurable naming conventions for method declarations. This rule reports method declarations which do not match the regex that applies to their specific kind (e.g. JUnit test or native method). Each regex can be configured through properties. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#methodnamingconventions -->
+    <!-- <exclude name="MethodNamingConventions"/> -->
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#misleadingvariablename -->
+    <exclude name="MIsLeadingVariableName"/>
+
+    <!-- Detects when a class, interface, enum or annotation does not have a package definition. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#nopackage -->
+    <!-- <exclude name="NoPackage"/> -->
+
+    <!-- A method should have only one exit point, and that should be the last statement in the method. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#onlyonereturn -->
+    <exclude name="OnlyOneReturn"/>
+
+    <!-- Detects when a package definition contains uppercase characters. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#packagecase -->
+    <!-- <exclude name="PackageCase"/> -->
+
+    <!-- Checks for variables that are defined before they might be used. A reference is deemed to be premature if it is created right before a block of code that doesn’t use it that also has the ability to return or throw an exception. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#prematuredeclaration -->
+    <!-- <exclude name="PrematureDeclaration"/> -->
+
+    <!-- Remote Interface of a Session EJB should not have a suffix. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#remoteinterfacenamingconvention -->
+    <!-- <exclude name="RemoteInterfaceNamingConvention"/> -->
+
+    <!-- A Remote Home interface type of a Session EJB should be suffixed by ‘Home’. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#remotesessioninterfacenamingconvention -->
+    <!-- <exclude name="RemoteSessionInterfaceNamingConvention"/> -->
+
+    <!-- Short Classnames with fewer than e.g. five characters are not recommended. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#shortclassname -->
+    <exclude name="ShortClassName"/>
+
+    <!-- Method names that are very short are not helpful to the reader. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#shortmethodname -->
+    <!-- <exclude name="ShortMethodName"/> -->
+
+    <!-- Fields, local variables, or parameter names that are very short are not helpful to the reader. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#shortvariable -->
+    <exclude name="ShortVariable"/>
+
+    <exclude name="SuspiciousConstantFieldName"/>
+
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#suspiciousconstantfieldname -->
+    <exclude name="TooManyStaticImports"/>
+
+    <!-- If you overuse the static import feature, it can make your program unreadable and  unmaintainable, polluting its namespace with all the static members you import.  Readers of your code (including you, a few months after you wrote it) will not know  which class a static member comes from (Sun 1.5 Language Guide). -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#toomanystaticimports -->
+    <exclude name="UselessParentheses"/>
+
+    <!-- Avoid the use of value in annotations when it’s the only element. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#unnecessaryannotationvalueelement -->
+    <!-- <exclude name="UnnecessaryAnnotationValueElement"/> -->
+
+    <!-- This rule detects when a constructor is not necessary; i.e., when there is only one constructor and the constructor is identical to the default constructor. The default constructor should has same access modifier as the declaring class. In an enum type, the default constructor is implicitly private. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#unnecessaryconstructor -->
+    <!-- <exclude name="UnnecessaryConstructor"/> -->
+
+    <!-- Import statements allow the use of non-fully qualified names.  The use of a fully qualified name which is covered by an import statement is redundant.  Consider using the non-fully qualified name. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#unnecessaryfullyqualifiedname -->
+    <!-- <exclude name="UnnecessaryFullyQualifiedName"/> -->
+
+    <!-- Avoid the creation of unnecessary local variables -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#unnecessarylocalbeforereturn -->
+    <!-- <exclude name="UnnecessaryLocalBeforeReturn"/> -->
+
+    <!-- Fields in interfaces and annotations are automatically public static final, and methods are public abstract. Classes, interfaces or annotations nested in an interface or annotation are automatically public static (all nested interfaces and annotations are automatically static). Nested enums are automatically static. For historical reasons, modifiers which are implied by the context are accepted by the compiler, but are superfluous. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.02 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#unnecessarymodifier -->
+    <!-- <exclude name="UnnecessaryModifier"/> -->
+
+    <!-- Avoid the use of unnecessary return statements. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#unnecessaryreturn -->
+    <!-- <exclude name="UnnecessaryReturn"/> -->
+
+    <!-- Minimum Language Version: Java 1.7 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.11.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#usediamondoperator -->
+    <!-- <exclude name="UseDiamondOperator"/> -->
+
+    <!-- Useless parentheses should be removed. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#uselessparentheses -->
+    <exclude name="VariableNamingConventions"/>
+
+    <!-- Reports qualified this usages in the same class. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#uselessqualifiedthis -->
+    <!-- <exclude name="UselessQualifiedThis"/> -->
+
+    <!-- When declaring and initializing array fields or variables, it is not necessary to explicitly create a new array using new. Instead one can simply define the initial content of the array as a expression in curly braces. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.15.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#useshortarrayinitializer -->
+    <!-- <exclude name="UseShortArrayInitializer"/> -->
+
+    <!-- Minimum Language Version: Java 1.7 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.10.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#useunderscoresinnumericliterals -->
+    <!-- <exclude name="UseUnderscoresInNumericLiterals"/> -->
+
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.2 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#variablenamingconventions -->
+    <exclude name="WhileLoopsMustUseBraces"/>
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.7 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_codestyle.html#whileloopsmustusebraces -->
+  </rule>
+  <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+    <properties>
+      <property name="utilityClassPattern" value="[A-Z][a-zA-Z]+"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/codestyle.xml/ShortClassName">
+    <properties>
+      <property name="minimum" value="3"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/codestyle.xml/LongVariable">
+    <properties>
+      <property name="minimum" value="24"/>
+    </properties>
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_design.html-->
+  <rule ref="category/java/design.xml">
+    <!-- If an abstract class does not provides any methods, it may be acting as a simple data container that is not meant to be instantiated. In this case, it is probably better to use a private or protected constructor in order to prevent instantiation than make the class misleadingly abstract. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#abstractclasswithoutanymethod -->
+    <!-- <exclude name="AbstractClassWithoutAnyMethod"/> -->
+
+    <!-- Avoid catching generic exceptions such as NullPointerException, RuntimeException, Exception in try-catch block -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoidcatchinggenericexception -->
+    <!-- <exclude name="AvoidCatchingGenericException"/> -->
+
+    <!-- Avoid creating deeply nested if-then statements since they are harder to read and error-prone to maintain. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoiddeeplynestedifstmts -->
+    <exclude name="AvoidDeeplyNestedIfStmts"/>
+
+    <!-- Catch blocks that merely rethrow a caught exception only add to code size and runtime complexity. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoidrethrowingexception -->
+    <!-- <exclude name="AvoidRethrowingException"/> -->
+
+    <!-- Catch blocks that merely rethrow a caught exception wrapped inside a new instance of the same type only add to code size and runtime complexity. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoidthrowingnewinstanceofsameexception -->
+    <!-- <exclude name="AvoidThrowingNewInstanceOfSameException"/> -->
+
+    <!-- Avoid throwing NullPointerExceptions manually. These are confusing because most people will assume that the virtual machine threw it.  To avoid a method being called with a null parameter, you may consider  using an IllegalArgumentException instead, making it clearly seen as a programmer-initiated exception.  However, there are better ways to handle this: -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoidthrowingnullpointerexception -->
+    <!-- <exclude name="AvoidThrowingNullPointerException"/> -->
+
+    <!-- Avoid throwing certain exception types. Rather than throw a raw RuntimeException, Throwable, Exception, or Error, use a subclassed exception or error instead. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoidthrowingrawexceptiontypes -->
+    <!-- <exclude name="AvoidThrowingRawExceptionTypes"/> -->
+
+    <!-- A method or constructor should not explicitly declare unchecked exceptions in its throws clause. Java doesn’t force the caller to handle an unchecked exception, so it’s unnecessary except for documentation. A better practice is to document the exceptional cases with a @throws Javadoc tag, which allows being more descriptive. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.13.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#avoiduncheckedexceptionsinsignatures -->
+    <!-- <exclude name="AvoidUncheckedExceptionsInSignatures"/> -->
+
+    <!-- A class with only private constructors should be final, unless the private constructor is invoked by a inner class. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#classwithonlyprivateconstructorsshouldbefinal -->
+    <!-- <exclude name="ClassWithOnlyPrivateConstructorsShouldBeFinal"/> -->
+
+    <!-- Sometimes two consecutive ‘if’ statements can be consolidated by separating their conditions with a boolean short-circuit operator. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#collapsibleifstatements -->
+    <exclude name="CollapsibleIfStatements"/>
+
+    <!-- This rule counts the number of unique attributes, local variables, and return types within an object.  A number higher than the specified threshold can indicate a high degree of coupling. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#couplingbetweenobjects -->
+    <!-- <exclude name="CouplingBetweenObjects"/> -->
+
+    <!-- The complexity of methods directly affects maintenance costs and readability. Concentrating too much decisional logic in a single method makes its behaviour hard to read and change. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.03 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#cyclomaticcomplexity -->
+    <exclude name="CyclomaticComplexity"/>
+
+    <!-- Data Classes are simple data holders, which reveal most of their state, and without complex functionality. The lack of functionality may indicate that their behaviour is defined elsewhere, which is a sign of poor data-behaviour proximity. By directly exposing their internals, Data Classes break encapsulation, and therefore reduce the system’s maintainability and understandability. Moreover, classes tend to strongly rely on their data representation, which makes for a brittle design. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.0.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#dataclass -->
+    <exclude name="DataClass"/>
+
+    <!-- Errors are system exceptions. Do not extend them. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#donotextendjavalangerror -->
+    <!-- <exclude name="DoNotExtendJavaLangError"/> -->
+
+    <!-- Using Exceptions as form of flow control is not recommended as they obscure true exceptions when debugging. Either add the necessary validation or use an alternate control structure. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#exceptionasflowcontrol -->
+    <!-- <exclude name="ExceptionAsFlowControl"/> -->
+
+    <!-- Excessive class file lengths are usually indications that the class may be burdened with excessive  responsibilities that could be provided by external classes or functions. In breaking these methods apart the code becomes more manageable and ripe for reuse. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#excessiveclasslength -->
+    <!-- <exclude name="ExcessiveClassLength"/> -->
+
+    <!-- A high number of imports can indicate a high degree of coupling within an object. This rule  counts the number of unique imports and reports a violation if the count is above the  user-specified threshold. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#excessiveimports -->
+    <exclude name="ExcessiveImports"/>
+
+    <!-- When methods are excessively long this usually indicates that the method is doing more than its name/signature might suggest. They also become challenging for others to digest since excessive  scrolling causes readers to lose focus. Try to reduce the method length by creating helper methods and removing any copy/pasted code. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#excessivemethodlength -->
+    <!-- <exclude name="ExcessiveMethodLength"/> -->
+
+    <!-- Methods with numerous parameters are a challenge to maintain, especially if most of them share the same datatype. These situations usually denote the need for new objects to wrap the numerous parameters. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#excessiveparameterlist -->
+    <exclude name="ExcessiveParameterList"/>
+
+    <!-- Classes with large numbers of public methods and attributes require disproportionate testing efforts since combinational side effects grow rapidly and increase risk. Refactoring these classes into smaller ones not only increases testability and reliability but also allows new variations to be developed easily. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#excessivepubliccount -->
+    <exclude name="ExcessivePublicCount"/>
+
+    <!-- If a final field is assigned to a compile-time constant, it could be made static, thus saving overhead in each object at runtime. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#finalfieldcouldbestatic -->
+    <!-- <exclude name="FinalFieldCouldBeStatic"/> -->
+
+    <!-- The God Class rule detects the God Class design flaw using metrics. God classes do too many things, are very big and overly complex. They should be split apart to be more object-oriented. The rule uses the detection strategy described in "Object-Oriented Metrics in Practice". The violations are reported against the entire class. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#godclass -->
+    <exclude name="GodClass"/>
+
+    <!-- Identifies private fields whose values never change once object initialization ends either in the declaration of the field or by a constructor.  This helps in converting existing classes to becoming immutable ones. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#immutablefield -->
+    <!-- <exclude name="ImmutableField"/> -->
+
+    <!-- The Law of Demeter is a simple rule, that says "only talk to friends". It helps to reduce coupling between classes or objects. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#lawofdemeter -->
+    <exclude name="LawOfDemeter"/>
+
+    <!-- Use opposite operator instead of negating the whole expression with a logic complement operator. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#logicinversion -->
+    <!-- <exclude name="LogicInversion"/> -->
+
+    <!-- Avoid using classes from the configured package hierarchy outside of the package hierarchy,  except when using one of the configured allowed classes. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#loosepackagecoupling -->
+    <exclude name="LoosePackageCoupling"/>
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.1.2 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#modifiedcyclomaticcomplexity -->
+    <exclude name="ModifiedCyclomaticComplexity"/>
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#ncssconstructorcount -->
+    <exclude name="NcssConstructorCount"/>
+
+    <!-- This rule uses the NCSS (Non-Commenting Source Statements) metric to determine the number of lines of code in a class, method or constructor. NCSS ignores comments, blank lines, and only counts actual statements. For more details on the calculation, see the documentation of the NCSS metric. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.0.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#ncsscount -->
+    <exclude name="NcssCount"/>
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#ncssmethodcount -->
+    <exclude name="NcssMethodCount"/>
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#ncsstypecount -->
+    <exclude name="NcssTypeCount"/>
+
+    <!-- The NPath complexity of a method is the number of acyclic execution paths through that method. While cyclomatic complexity counts the number of decision points in a method, NPath counts the number of full paths from the beginning to the end of the block of the method. That metric grows exponentially, as it multiplies the complexity of statements in the same block. For more details on the calculation, see the documentation of the NPath metric. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#npathcomplexity -->
+    <exclude name="NPathComplexity"/>
+
+    <!-- A method/constructor shouldn’t explicitly throw the generic java.lang.Exception, since it is unclear which exceptions that can be thrown from the methods. It might be difficult to document and understand such vague interfaces. Use either a class derived from RuntimeException or a checked exception. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#signaturedeclarethrowsexception -->
+    <!-- <exclude name="SignatureDeclareThrowsException"/> -->
+
+    <!-- Look for ternary operators with the form condition ? literalBoolean : foo or condition ? foo : literalBoolean. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#simplifiedternary -->
+    <!-- <exclude name="SimplifiedTernary"/> -->
+
+    <!-- Avoid negation in an assertTrue or assertFalse test. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#simplifybooleanassertion -->
+    <!-- <exclude name="SimplifyBooleanAssertion"/> -->
+
+    <!-- Avoid unnecessary comparisons in boolean expressions, they serve no purpose and impacts readability. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.05 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#simplifybooleanexpressions -->
+    <!-- <exclude name="SimplifyBooleanExpressions"/> -->
+
+    <!-- Avoid unnecessary if-then-else statements when returning a boolean. The result of the conditional test can be returned instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#simplifybooleanreturns -->
+    <!-- <exclude name="SimplifyBooleanReturns"/> -->
+
+    <!-- No need to check for null before an instanceof; the instanceof keyword returns false when given a null argument. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#simplifyconditional -->
+    <!-- <exclude name="SimplifyConditional"/> -->
+
+    <!-- Fields whose scopes are limited to just single methods do not rely on the containing object to provide them to other methods. They may be better implemented as local variables within those methods. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#singularfield -->
+    <!-- <exclude name="SingularField"/> -->
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.1.2 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#stdcyclomaticcomplexity -->
+    <exclude name="StdCyclomaticComplexity"/>
+
+    <!-- A high ratio of statements to labels in a switch statement implies that the switch statement is overloaded.  Consider moving the statements into new methods or creating subclasses based on the switch variable. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.02 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#switchdensity -->
+    <!-- <exclude name="SwitchDensity"/> -->
+
+    <!-- Classes that have too many fields can become unwieldy and could be redesigned to have fewer fields, possibly through grouping related fields in new objects.  For example, a class with individual  city/state/zip fields could park them within a single Address field. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#toomanyfields -->
+    <exclude name="TooManyFields"/>
+
+    <!-- A class with too many methods is probably a good suspect for refactoring, in order to reduce its complexity and find a way to have more fine grained objects. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#toomanymethods -->
+    <exclude name="TooManyMethods"/>
+
+    <!-- The overriding method merely calls the same method defined in a superclass. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#uselessoverridingmethod -->
+    <!-- <exclude name="UselessOverridingMethod"/> -->
+
+    <!-- When you write a public method, you should be thinking in terms of an API. If your method is public, it means other class will use it, therefore, you want (or need) to offer a comprehensive and evolutive API. If you pass a lot of information as a simple series of Strings, you may think of using an Object to represent all those information. You’ll get a simpler API (such as doWork(Workload workload), rather than a tedious series of Strings) and more importantly, if you need at some point to pass extra data, you’ll be able to do so by simply modifying or extending Workload without any modification to your API. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#useobjectforclearerapi -->
+    <!-- <exclude name="UseObjectForClearerAPI"/> -->
+
+    <!-- For classes that only have static methods, consider making them utility classes. Note that this doesn’t apply to abstract classes, since their subclasses may well include non-static methods.  Also, if you want this class to be a utility class, remember to add a private constructor to prevent instantiation. (Note, that this use was known before PMD 5.1.0 as UseSingleton). -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_design.html#useutilityclass -->
+    <exclude name="UseUtilityClass"/>
+  </rule>
+  <rule ref="category/java/design.xml/CyclomaticComplexity">
+    <properties>
+      <property name="classReportLevel" value="128"/>
+      <property name="methodReportLevel" value="32"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/NPathComplexity">
+    <properties>
+      <property name="reportLevel" value="512"/>
+    </properties>
+  </rule>
+  <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
+    <properties>
+      <property name="problemDepth" value="8"/>
+    </properties>
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_documentation.html-->
+  <rule ref="category/java/documentation.xml">
+    <!-- A rule for the politically correct… we don’t want to offend anyone. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_documentation.html#commentcontent -->
+    <!-- <exclude name="CommentContent"/> -->
+
+    <!-- Denotes whether comments are required (or unwanted) for specific language elements. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_documentation.html#commentrequired -->
+    <exclude name="CommentRequired"/>
+
+    <!-- Determines whether the dimensions of non-header comments found are within the specified limits. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_documentation.html#commentsize -->
+    <exclude name="CommentSize"/>
+
+    <!-- Uncommented Empty Constructor finds instances where a constructor does not contain statements, but there is no comment. By explicitly commenting empty constructors it is easier to distinguish between intentional (commented) and unintentional empty constructors. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_documentation.html#uncommentedemptyconstructor -->
+    <exclude name="UncommentedEmptyConstructor"/>
+
+    <!-- Uncommented Empty Method Body finds instances where a method body does not contain statements, but there is no comment. By explicitly commenting empty method bodies it is easier to distinguish between intentional (commented) and unintentional empty methods. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_documentation.html#uncommentedemptymethodbody -->
+    <!-- <exclude name="UncommentedEmptyMethodBody"/> -->
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_errorprone.html-->
+  <rule ref="category/java/errorprone.xml">
+    <!-- Avoid assignments in operands; this can make code more complicated and harder to read. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.03 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#assignmentinoperand -->
+    <exclude name="AssignmentInOperand"/>
+
+    <!-- Identifies a possible unsafe usage of a static field. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#assignmenttononfinalstatic -->
+    <!-- <exclude name="AssignmentToNonFinalStatic"/> -->
+
+    <!-- Methods such as getDeclaredConstructors(), getDeclaredConstructor(Class[]) and setAccessible(), as the interface PrivilegedAction, allow for the runtime alteration of variable, class, or method visibility, even if they are private. This violates the principle of encapsulation. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidaccessibilityalteration -->
+    <!-- <exclude name="AvoidAccessibilityAlteration"/> -->
+
+    <!-- Use of the term ‘assert’ will conflict with newer versions of Java since it is a reserved word. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidassertasidentifier -->
+    <!-- <exclude name="AvoidAssertAsIdentifier"/> -->
+
+    <!-- Using a branching statement as the last part of a loop may be a bug, and/or is confusing. Ensure that the usage is not a bug, or consider using another approach. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidbranchingstatementaslastinloop -->
+    <!-- <exclude name="AvoidBranchingStatementAsLastInLoop"/> -->
+
+    <!-- The method Object.finalize() is called by the garbage collector on an object when garbage collection determines that there are no more references to the object. It should not be invoked by application logic. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidcallingfinalize -->
+    <!-- <exclude name="AvoidCallingFinalize"/> -->
+
+    <!-- Code should never throw NullPointerExceptions under normal circumstances.  A catch block may hide the  original error, causing other, more subtle problems later on. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidcatchingnpe -->
+    <!-- <exclude name="AvoidCatchingNPE"/> -->
+
+    <!-- Catching Throwable errors is not recommended since its scope is very broad. It includes runtime issues such as  OutOfMemoryError that should be exposed and managed separately. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidcatchingthrowable -->
+    <!-- <exclude name="AvoidCatchingThrowable"/> -->
+
+    <!-- One might assume that the result of "new BigDecimal(0.1)" is exactly equal to 0.1, but it is actually equal to .1000000000000000055511151231257827021181583404541015625. This is because 0.1 cannot be represented exactly as a double (or as a binary fraction of any finite length). Thus, the long value that is being passed in to the constructor is not exactly equal to 0.1, appearances notwithstanding. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoiddecimalliteralsinbigdecimalconstructor -->
+    <!-- <exclude name="AvoidDecimalLiteralsInBigDecimalConstructor"/> -->
+
+    <!-- Code containing duplicate String literals can usually be improved by declaring the String as a constant field. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidduplicateliterals -->
+    <exclude name="AvoidDuplicateLiterals"/>
+
+    <!-- Use of the term ‘enum’ will conflict with newer versions of Java since it is a reserved word. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidenumasidentifier -->
+    <!-- <exclude name="AvoidEnumAsIdentifier"/> -->
+
+    <!-- It can be confusing to have a field name with the same name as a method. While this is permitted,  having information (field) and actions (method) is not clear naming. Developers versed in  Smalltalk often prefer this approach as the methods denote accessor methods. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidfieldnamematchingmethodname -->
+    <exclude name="AvoidFieldNameMatchingMethodName"/>
+
+    <!-- It is somewhat confusing to have a field name matching the declaring class name. This probably means that type and/or field names should be chosen more carefully. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidfieldnamematchingtypename -->
+    <exclude name="AvoidFieldNameMatchingTypeName"/>
+
+    <!-- Each caught exception type should be handled in its own catch clause. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidinstanceofchecksincatchclause -->
+    <!-- <exclude name="AvoidInstanceofChecksInCatchClause"/> -->
+
+    <!-- Avoid using hard-coded literals in conditional statements. By declaring them as static variables or private members with descriptive names maintainability is enhanced. By default, the literals "-1" and "0" are ignored. More exceptions can be defined with the property "ignoreMagicNumbers". -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidliteralsinifcondition -->
+    <exclude name="AvoidLiteralsInIfCondition"/>
+
+    <!-- Statements in a catch block that invoke accessors on the exception without using the information only add to code size.  Either remove the invocation, or use the return result. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidlosingexceptioninformation -->
+    <!-- <exclude name="AvoidLosingExceptionInformation"/> -->
+
+    <!-- The use of multiple unary operators may be problematic, and/or confusing. Ensure that the intended usage is not a bug, or consider simplifying the expression. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidmultipleunaryoperators -->
+    <!-- <exclude name="AvoidMultipleUnaryOperators"/> -->
+
+    <!-- Integer literals should not start with zero since this denotes that the rest of literal will be interpreted as an octal value. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#avoidusingoctalvalues -->
+    <!-- <exclude name="AvoidUsingOctalValues"/> -->
+
+    <!-- Avoid equality comparisons with Double.NaN. Due to the implicit lack of representation precision when comparing floating point numbers these are likely to cause logic errors. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#badcomparison -->
+    <!-- <exclude name="BadComparison"/> -->
+
+    <!-- If a class is a bean, or is referenced by a bean directly or indirectly it needs to be serializable.  Member variables need to be marked as transient, static, or have accessor methods in the class. Marking  variables as transient is the safest and easiest modification. Accessor methods should follow the Java  naming conventions, i.e. for a variable named foo, getFoo() and setFoo() accessor methods should be provided. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#beanmembersshouldserialize -->
+    <exclude name="BeanMembersShouldSerialize"/>
+
+    <!-- The null check is broken since it will throw a NullPointerException itself. It is likely that you used || instead of && or vice versa. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 3.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#brokennullcheck -->
+    <!-- <exclude name="BrokenNullCheck"/> -->
+
+    <!-- Super should be called at the start of the method -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#callsuperfirst -->
+    <!-- <exclude name="CallSuperFirst"/> -->
+
+    <!-- Super should be called at the end of the method -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#callsuperlast -->
+    <!-- <exclude name="CallSuperLast"/> -->
+
+    <!-- The skip() method may skip a smaller number of bytes than requested. Check the returned value to find out if it was the case or not. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#checkskipresult -->
+    <!-- <exclude name="CheckSkipResult"/> -->
+
+    <!-- When deriving an array of a specific class from your Collection, one should provide an array of the same class as the parameter of the toArray() method. Doing otherwise you will will result in a ClassCastException. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#classcastexceptionwithtoarray -->
+    <!-- <exclude name="ClassCastExceptionWithToArray"/> -->
+
+    <!-- The java Manual says "By convention, classes that implement this interface should override Object.clone (which is protected) with a public method." -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#clonemethodmustbepublic -->
+    <!-- <exclude name="CloneMethodMustBePublic"/> -->
+
+    <!-- The method clone() should only be implemented if the class implements the Cloneable interface with the exception of a final method that only throws CloneNotSupportedException. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#clonemethodmustimplementcloneable -->
+    <!-- <exclude name="CloneMethodMustImplementCloneable"/> -->
+
+    <!-- Minimum Language Version: Java 1.5 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#clonemethodreturntypemustmatchclassname -->
+    <!-- <exclude name="CloneMethodReturnTypeMustMatchClassName"/> -->
+
+    <!-- The method clone() should throw a CloneNotSupportedException. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#clonethrowsclonenotsupportedexception -->
+    <!-- <exclude name="CloneThrowsCloneNotSupportedException"/> -->
+
+    <!-- Ensure that resources (like java.sql.Connection, java.sql.Statement, and java.sql.ResultSet objects and any subtype of java.lang.AutoCloseable) are always closed after use. Failing to do so might result in resource leaks. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#closeresource -->
+    <!-- <exclude name="CloseResource"/> -->
+
+    <!-- Use equals() to compare object references; avoid comparing them with ==. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#compareobjectswithequals -->
+    <!-- <exclude name="CompareObjectsWithEquals"/> -->
+
+    <!-- Calling overridable methods during construction poses a risk of invoking methods on an incompletely constructed object and can be difficult to debug. It may leave the sub-class unable to construct its superclass or forced to replicate the construction process completely within itself, losing the ability to call super().  If the default constructor contains a call to an overridable method, the subclass may be completely uninstantiable.   Note that this includes method calls throughout the control flow graph - i.e., if a constructor Foo() calls a private method bar() that calls a public method buz(), this denotes a problem. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#constructorcallsoverridablemethod -->
+    <!-- <exclude name="ConstructorCallsOverridableMethod"/> -->
+
+    <!-- The dataflow analysis tracks local definitions, undefinitions and references to variables on different paths on the data flow. From those informations there can be found various problems. -->
+    <!-- Priority: Low (5) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#dataflowanomalyanalysis -->
+    <exclude name="DataflowAnomalyAnalysis"/>
+
+    <!-- The method appears to be a test case since it has public or default visibility, non-static access, no arguments, no return value, has no annotations, but is a member of a class that has one or more JUnit test cases. If it is a utility method, it should likely have private visibility. If it is an ignored test, it should be annotated with @Test and @Ignore. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.13.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#detachedtestcase -->
+    <!-- <exclude name="DetachedTestCase"/> -->
+
+    <!-- Calls to System.gc(), Runtime.getRuntime().gc(), and System.runFinalization() are not advised. Code should have the same behavior whether the garbage collection is disabled using the option -Xdisableexplicitgc or not. Moreover, "modern" jvms do a very good job handling garbage collections. If memory usage issues unrelated to memory leaks develop within an application, it should be dealt with JVM options rather than within the code itself. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#donotcallgarbagecollectionexplicitly -->
+    <!-- <exclude name="DoNotCallGarbageCollectionExplicitly"/> -->
+
+    <!-- Web applications should not call System.exit(), since only the web container or the application server should stop the JVM. This rule also checks for the equivalent call Runtime.getRuntime().exit(). -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#donotcallsystemexit -->
+    <!-- <exclude name="DoNotCallSystemExit"/> -->
+
+    <!-- Extend Exception or RuntimeException instead of Throwable. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.0.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#donotextendjavalangthrowable -->
+    <!-- <exclude name="DoNotExtendJavaLangThrowable"/> -->
+
+    <!-- Use Environment.getExternalStorageDirectory() instead of "/sdcard" -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#donothardcodesdcard -->
+    <!-- <exclude name="DoNotHardCodeSDCard"/> -->
+
+    <!-- Throwing exceptions within a ‘finally’ block is confusing since they may mask other exceptions  or code defects. Note: This is a PMD implementation of the Lint4j rule "A throw in a finally block" -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#donotthrowexceptioninfinally -->
+    <!-- <exclude name="DoNotThrowExceptionInFinally"/> -->
+
+    <!-- Avoid importing anything from the ‘sun.*’ packages.  These packages are not portable and are likely to change. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#dontimportsun -->
+    <!-- <exclude name="DontImportSun"/> -->
+
+    <!-- Don’t use floating point for loop indices. If you must use floating point, use double unless you’re certain that float provides enough precision and you have a compelling performance need (space or time). -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#dontusefloattypeforloopindices -->
+    <!-- <exclude name="DontUseFloatTypeForLoopIndices"/> -->
+
+    <!-- Empty Catch Block finds instances where an exception is caught, but nothing is done. In most circumstances, this swallows an exception which should either be acted on  or reported. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptycatchblock -->
+    <!-- <exclude name="EmptyCatchBlock"/> -->
+
+    <!-- Empty finalize methods serve no purpose and should be removed. Note that Oracle has declared Object.finalize() as deprecated since JDK 9. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptyfinalizer -->
+    <!-- <exclude name="EmptyFinalizer"/> -->
+
+    <!-- Empty finally blocks serve no purpose and should be removed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptyfinallyblock -->
+    <!-- <exclude name="EmptyFinallyBlock"/> -->
+
+    <!-- Empty If Statement finds instances where a condition is checked but nothing is done about it. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptyifstmt -->
+    <!-- <exclude name="EmptyIfStmt"/> -->
+
+    <!-- Empty initializers serve no purpose and should be removed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptyinitializer -->
+    <!-- <exclude name="EmptyInitializer"/> -->
+
+    <!-- Empty block statements serve no purpose and should be removed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptystatementblock -->
+    <!-- <exclude name="EmptyStatementBlock"/> -->
+
+    <!-- An empty statement (or a semicolon by itself) that is not used as the sole body of a ‘for’  or ‘while’ loop is probably a bug.  It could also be a double semicolon, which has no purpose and should be removed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptystatementnotinloop -->
+    <!-- <exclude name="EmptyStatementNotInLoop"/> -->
+
+    <!-- Empty switch statements serve no purpose and should be removed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptyswitchstatements -->
+    <!-- <exclude name="EmptySwitchStatements"/> -->
+
+    <!-- Empty synchronized blocks serve no purpose and should be removed. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptysynchronizedblock -->
+    <!-- <exclude name="EmptySynchronizedBlock"/> -->
+
+    <!-- Avoid empty try blocks - what’s the point? -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptytryblock -->
+    <!-- <exclude name="EmptyTryBlock"/> -->
+
+    <!-- Empty While Statement finds all instances where a while statement does nothing. If it is a timing loop, then you should use Thread.sleep() for it; if it is a while loop that does a lot in the exit expression, rewrite it to make it clearer. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#emptywhilestmt -->
+    <exclude name="EmptyWhileStmt"/>
+
+    <!-- Tests for null should not use the equals() method. The ‘==’ operator should be used instead. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#equalsnull -->
+    <!-- <exclude name="EqualsNull"/> -->
+
+    <!-- If the finalize() is implemented, its last action should be to call super.finalize. Note that Oracle has declared Object.finalize() as deprecated since JDK 9. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#finalizedoesnotcallsuperfinalize -->
+    <!-- <exclude name="FinalizeDoesNotCallSuperFinalize"/> -->
+
+    <!-- If the finalize() is implemented, it should do something besides just calling super.finalize(). Note that Oracle has declared Object.finalize() as deprecated since JDK 9. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#finalizeonlycallssuperfinalize -->
+    <!-- <exclude name="FinalizeOnlyCallsSuperFinalize"/> -->
+
+    <!-- Methods named finalize() should not have parameters.  It is confusing and most likely an attempt to overload Object.finalize(). It will not be called by the VM. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#finalizeoverloaded -->
+    <!-- <exclude name="FinalizeOverloaded"/> -->
+
+    <!-- When overriding the finalize(), the new method should be set as protected.  If made public,  other classes may invoke it at inappropriate times. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#finalizeshouldbeprotected -->
+    <!-- <exclude name="FinalizeShouldBeProtected"/> -->
+
+    <!-- Avoid idempotent operations - they have no effect. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#idempotentoperations -->
+    <!-- <exclude name="IdempotentOperations"/> -->
+
+    <!-- There is no need to import a type that lives in the same package. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.02 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#importfromsamepackage -->
+    <!-- <exclude name="ImportFromSamePackage"/> -->
+
+    <!-- Avoid instantiating an object just to call getClass() on it; use the .class public member instead. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#instantiationtogetclass -->
+    <!-- <exclude name="InstantiationToGetClass"/> -->
+
+    <!-- Check for messages in slf4j and log4j2 (since 6.19.0) loggers with non matching number of arguments and placeholders. -->
+    <!-- Priority: Low (5) -->
+    <!-- Since: PMD 5.5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#InvalidLogMessageFormat -->
+    <!-- <exclude name="InvalidLogMessageFormat"/> -->
+
+    <!-- Avoid jumbled loop incrementers - its usually a mistake, and is confusing even if intentional. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#jumbledincrementer -->
+    <!-- <exclude name="JumbledIncrementer"/> -->
+
+    <!-- Some JUnit framework methods are easy to misspell. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#junitspelling -->
+    <!-- <exclude name="JUnitSpelling"/> -->
+
+    <!-- The suite() method in a JUnit test needs to be both public and static. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#junitstaticsuite -->
+    <!-- <exclude name="JUnitStaticSuite"/> -->
+
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#loggerisnotstaticfinal -->
+    <!-- <exclude name="LoggerIsNotStaticFinal"/> -->
+
+    <!-- Non-constructor methods should not have the same name as the enclosing class. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#methodwithsamenameasenclosingclass -->
+    <!-- <exclude name="MethodWithSameNameAsEnclosingClass"/> -->
+
+    <!-- The null check here is misplaced. If the variable is null a NullPointerException will be thrown. Either the check is useless (the variable will never be "null") or it is incorrect. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#misplacednullcheck -->
+    <!-- <exclude name="MisplacedNullCheck"/> -->
+
+    <!-- Switch statements without break or return statements for each case option may indicate problematic behaviour. Empty cases are ignored as these indicate an intentional fall-through. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#missingbreakinswitch -->
+    <!-- <exclude name="MissingBreakInSwitch"/> -->
+
+    <!-- Serializable classes should provide a serialVersionUID field. The serialVersionUID field is also needed for abstract base classes. Each individual class in the inheritance chain needs an own serialVersionUID field. See also Should an abstract class have a serialVersionUID. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#missingserialversionuid -->
+    <!-- <exclude name="MissingSerialVersionUID"/> -->
+
+    <!-- A class that has private constructors and does not have any static methods or fields cannot be used. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#missingstaticmethodinnoninstantiatableclass -->
+    <!-- <exclude name="MissingStaticMethodInNonInstantiatableClass"/> -->
+
+    <!-- Normally only one logger is used in each class. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#morethanonelogger -->
+    <!-- <exclude name="MoreThanOneLogger"/> -->
+
+    <!-- A non-case label (e.g. a named break/continue label) was present in a switch statement. This legal, but confusing. It is easy to mix up the case labels and the non-case labels. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#noncaselabelinswitchstatement -->
+    <!-- <exclude name="NonCaseLabelInSwitchStatement"/> -->
+
+    <!-- A non-static initializer block will be called any time a constructor is invoked (just prior to invoking the constructor).  While this is a valid language construct, it is rarely used and is confusing. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#nonstaticinitializer -->
+    <!-- <exclude name="NonStaticInitializer"/> -->
+
+    <!-- Assigning a "null" to a variable (outside of its declaration) is usually bad form.  Sometimes, this type of assignment is an indication that the programmer doesn’t completely understand what is going on in the code. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.02 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#nullassignment -->
+    <exclude name="NullAssignment"/>
+
+    <!-- Override both public boolean Object.equals(Object other), and public int Object.hashCode(), or override neither.  Even if you are inheriting a hashCode() from a parent class, consider implementing hashCode and explicitly delegating to your superclass. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#overridebothequalsandhashcode -->
+    <!-- <exclude name="OverrideBothEqualsAndHashcode"/> -->
+
+    <!-- Object clone() should be implemented with super.clone(). -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 1.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#propercloneimplementation -->
+    <!-- <exclude name="ProperCloneImplementation"/> -->
+
+    <!-- A logger should normally be defined private static final and be associated with the correct class. private final Log log; is also allowed for rare cases where loggers need to be passed around, with the restriction that the logger needs to be passed into the constructor. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#properlogger -->
+    <!-- <exclude name="ProperLogger"/> -->
+
+    <!-- For any method that returns an array, it is a better to return an empty array rather than a null reference. This removes the need for null checking all results and avoids inadvertent NullPointerExceptions. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#returnemptyarrayratherthannull -->
+    <!-- <exclude name="ReturnEmptyArrayRatherThanNull"/> -->
+
+    <!-- Avoid returning from a finally block, this can discard exceptions. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.05 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#returnfromfinallyblock -->
+    <!-- <exclude name="ReturnFromFinallyBlock"/> -->
+
+    <!-- Be sure to specify a Locale when creating SimpleDateFormat instances to ensure that locale-appropriate formatting is used. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#simpledateformatneedslocale -->
+    <!-- <exclude name="SimpleDateFormatNeedsLocale"/> -->
+
+    <!-- Some classes contain overloaded getInstance. The problem with overloaded getInstance methods is that the instance created using the overloaded method is not cached and so, for each call and new objects will be created for every invocation. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 5.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#singlemethodsingleton -->
+    <!-- <exclude name="SingleMethodSingleton"/> -->
+
+    <!-- Some classes contain overloaded getInstance. The problem with overloaded getInstance methods is that the instance created using the overloaded method is not cached and so, for each call and new objects will be created for every invocation. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 5.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#singletonclassreturningnewinstance -->
+    <!-- <exclude name="SingletonClassReturningNewInstance"/> -->
+
+    <!-- According to the J2EE specification, an EJB should not have any static fields with write access. However, static read-only fields are allowed. This ensures proper behavior especially when instances are distributed by the container on several JREs. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#staticejbfieldshouldbefinal -->
+    <!-- <exclude name="StaticEJBFieldShouldBeFinal"/> -->
+
+    <!-- Individual character values provided as initialization arguments will be converted into integers. This can lead to internal buffer sizes that are larger than expected. Some examples: -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#stringbufferinstantiationwithchar -->
+    <!-- <exclude name="StringBufferInstantiationWithChar"/> -->
+
+    <!-- The method name and parameter number are suspiciously close to equals(Object), which can denote an intention to override the equals(Object) method. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#suspiciousequalsmethodname -->
+    <!-- <exclude name="SuspiciousEqualsMethodName"/> -->
+
+    <!-- The method name and return type are suspiciously close to hashCode(), which may denote an intention to override the hashCode() method. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#suspicioushashcodemethodname -->
+    <!-- <exclude name="SuspiciousHashcodeMethodName"/> -->
+
+    <!-- A suspicious octal escape sequence was found inside a String literal. The Java language specification (section 3.10.6) says an octal escape sequence inside a literal String shall consist of a backslash followed by: -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#suspiciousoctalescape -->
+    <!-- <exclude name="SuspiciousOctalEscape"/> -->
+
+    <!-- Test classes end with the suffix Test. Having a non-test class with that name is not a good practice,  since most people will assume it is a test case. Test classes have test methods named testXXX. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#testclasswithouttestcases -->
+    <!-- <exclude name="TestClassWithoutTestCases"/> -->
+
+    <!-- Do not use "if" statements whose conditionals are always true or always false. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#unconditionalifstatement -->
+    <!-- <exclude name="UnconditionalIfStatement"/> -->
+
+    <!-- A JUnit test assertion with a boolean literal is unnecessary since it always will evaluate to the same thing. Consider using flow control (in case of assertTrue(false) or similar) or simply removing statements like assertTrue(true) and assertFalse(false).  If you just want a test to halt after finding an error, use the fail() method and provide an indication message of why it did. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#unnecessarybooleanassertion -->
+    <!-- <exclude name="UnnecessaryBooleanAssertion"/> -->
+
+    <!-- Using equalsIgnoreCase() is faster than using toUpperCase/toLowerCase().equals() -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#unnecessarycasechange -->
+    <!-- <exclude name="UnnecessaryCaseChange"/> -->
+
+    <!-- Avoid the use temporary objects when converting primitives to Strings. Use the static conversion methods on the wrapper classes instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 0.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#unnecessaryconversiontemporary -->
+    <!-- <exclude name="UnnecessaryConversionTemporary"/> -->
+
+    <!-- After checking an object reference for null, you should invoke equals() on that object rather than passing it to another object’s equals() method. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#unusednullcheckinequals -->
+    <!-- <exclude name="UnusedNullCheckInEquals"/> -->
+
+    <!-- To make sure the full stacktrace is printed out, use the logging statement with two arguments: a String and a Throwable. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#usecorrectexceptionlogging -->
+    <!-- <exclude name="UseCorrectExceptionLogging"/> -->
+
+    <!-- Using ‘==’ or ‘!=’ to compare strings only works if intern version is used on both sides. Use the equals() method instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#useequalstocomparestrings -->
+    <!-- <exclude name="UseEqualsToCompareStrings"/> -->
+
+    <!-- An operation on an Immutable object (String, BigDecimal or BigInteger) won’t change the object itself since the result of the operation is a new object. Therefore, ignoring the operation result is an error. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#uselessoperationonimmutable -->
+    <!-- <exclude name="UselessOperationOnImmutable"/> -->
+
+    <!-- When doing String::toLowerCase()/toUpperCase() conversions, use an explicit locale argument to specify the case transformation rules. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#uselocalewithcaseconversions -->
+    <!-- <exclude name="UseLocaleWithCaseConversions"/> -->
+
+    <!-- In J2EE, the getClassLoader() method might not work as expected. Use  Thread.currentThread().getContextClassLoader() instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.7 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_errorprone.html#useproperclassloader -->
+    <exclude name="UseProperClassLoader"/>
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_multithreading.html-->
+  <rule ref="category/java/multithreading.xml">
+    <!-- Method-level synchronization can cause problems when new code is added to the method. Block-level synchronization helps to ensure that only the code that needs synchronization gets it. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#avoidsynchronizedatmethodlevel -->
+    <!-- <exclude name="AvoidSynchronizedAtMethodLevel"/> -->
+
+    <!-- Avoid using java.lang.ThreadGroup; although it is intended to be used in a threaded environment it contains methods that are not thread-safe. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#avoidthreadgroup -->
+    <!-- <exclude name="AvoidThreadGroup"/> -->
+
+    <!-- Use of the keyword ‘volatile’ is generally used to fine tune a Java application, and therefore, requires a good expertise of the Java Memory Model. Moreover, its range of action is somewhat misknown. Therefore, the volatile keyword should not be used for maintenance purpose and portability. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#avoidusingvolatile -->
+    <!-- <exclude name="AvoidUsingVolatile"/> -->
+
+    <!-- The J2EE specification explicitly forbids the use of threads. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#donotusethreads -->
+    <exclude name="DoNotUseThreads"/>
+
+    <!-- Explicitly calling Thread.run() method will execute in the caller’s thread of control.  Instead, call Thread.start() for the intended behavior. -->
+    <!-- Priority: Medium Low (4) -->
+    <!-- Since: PMD 4.3 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#dontcallthreadrun -->
+    <!-- <exclude name="DontCallThreadRun"/> -->
+
+    <!-- Partially created objects can be returned by the Double Checked Locking pattern when used in Java. An optimizing JRE may assign a reference to the baz variable before it calls the constructor of the object the reference points to. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 1.04 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#doublecheckedlocking -->
+    <!-- <exclude name="DoubleCheckedLocking"/> -->
+
+    <!-- Non-thread safe singletons can result in bad state changes. Eliminate static singletons if possible by instantiating the object directly. Static singletons are usually not needed as only a single instance exists anyway. Other possible fixes are to synchronize the entire method or to use an initialize-on-demand holder class. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#nonthreadsafesingleton -->
+    <!-- <exclude name="NonThreadSafeSingleton"/> -->
+
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.6 -->
+    <!-- Deprecated -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#unsynchronizedstaticdateformatter -->
+    <!-- <exclude name="UnsynchronizedStaticDateFormatter"/> -->
+
+    <!-- Instances of java.text.Format are generally not synchronized. Sun recommends using separate format instances for each thread. If multiple threads must access a static formatter, the formatter must be synchronized on block level. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.11.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#unsynchronizedstaticformatter -->
+    <!-- <exclude name="UnsynchronizedStaticFormatter"/> -->
+
+    <!-- Minimum Language Version: Java 1.5 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#useconcurrenthashmap -->
+    <exclude name="UseConcurrentHashMap"/>
+
+    <!-- Thread.notify() awakens a thread monitoring the object. If more than one thread is monitoring, then only one is chosen.  The thread chosen is arbitrary; thus its usually safer to call notifyAll() instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_multithreading.html#usenotifyallinsteadofnotify -->
+    <!-- <exclude name="UseNotifyAllInsteadOfNotify"/> -->
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_performance.html-->
+  <rule ref="category/java/performance.xml">
+    <!-- The conversion of literals to strings by concatenating them with empty strings is inefficient. It is much better to use one of the type-specific toString() methods instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#addemptystring -->
+    <!-- <exclude name="AddEmptyString"/> -->
+
+    <!-- Avoid concatenating characters as strings in StringBuffer/StringBuilder.append methods. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#appendcharacterwithchar -->
+    <!-- <exclude name="AppendCharacterWithChar"/> -->
+
+    <!-- Instead of manually copying data between two arrays, use the efficient Arrays.copyOf or System.arraycopy method instead. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#avoidarrayloops -->
+    <!-- <exclude name="AvoidArrayLoops"/> -->
+
+    <!-- Minimum Language Version: Java 1.7 -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 6.0.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#avoidfilestream -->
+    <!-- <exclude name="AvoidFileStream"/> -->
+
+    <!-- New objects created within loops should be checked to see if they can created outside them and reused. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 2.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#avoidinstantiatingobjectsinloops -->
+    <exclude name="AvoidInstantiatingObjectsInLoops"/>
+
+    <!-- Java uses the ‘short’ type to reduce memory usage, not to optimize calculation. In fact, the JVM does not have any arithmetic capabilities for the short type: the JVM must convert the short into an int, do the proper calculation and convert the int back to a short. Thus any storage gains found through use of the ‘short’ type may be offset by adverse impacts on performance. -->
+    <!-- Priority: High (1) -->
+    <!-- Since: PMD 4.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#avoidusingshorttype -->
+    <!-- <exclude name="AvoidUsingShortType"/> -->
+
+    <!-- Don’t create instances of already existing BigInteger (BigInteger.ZERO, BigInteger.ONE) and for Java 1.5 onwards, BigInteger.TEN and BigDecimal (BigDecimal.ZERO, BigDecimal.ONE, BigDecimal.TEN) -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.9 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#bigintegerinstantiation -->
+    <!-- <exclude name="BigIntegerInstantiation"/> -->
+
+    <!-- Avoid instantiating Boolean objects; you can reference Boolean.TRUE, Boolean.FALSE, or call Boolean.valueOf() instead. Note that new Boolean() is deprecated since JDK 9 for that reason. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 1.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#booleaninstantiation -->
+    <!-- <exclude name="BooleanInstantiation"/> -->
+
+    <!-- Calling new Byte() causes memory allocation that can be avoided by the static Byte.valueOf(). It makes use of an internal cache that recycles earlier instances making it more memory efficient. Note that new Byte() is deprecated since JDK 9 for that reason. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#byteinstantiation -->
+    <!-- <exclude name="ByteInstantiation"/> -->
+
+    <!-- Consecutive calls to StringBuffer/StringBuilder .append should be chained, reusing the target object. This can improve the performance by producing a smaller bytecode, reducing overhead and improving inlining. A complete analysis can be found here -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#consecutiveappendsshouldreuse -->
+    <!-- <exclude name="ConsecutiveAppendsShouldReuse"/> -->
+
+    <!-- Consecutively calling StringBuffer/StringBuilder.append(…) with literals should be avoided. Since the literals are constants, they can already be combined into a single String literal and this String can be appended in a single method call. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#consecutiveliteralappends -->
+    <!-- <exclude name="ConsecutiveLiteralAppends"/> -->
+
+    <!-- String.trim().length() == 0 (or String.trim().isEmpty() for the same reason) is an inefficient way to check if a String is really blank, as it creates a new String object just to check its size. Consider creating a static function that loops through a string, checking Character.isWhitespace() on each character and returning false if a non-whitespace character is found. A Smarter code to check for an empty string would be: -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#inefficientemptystringcheck -->
+    <!-- <exclude name="InefficientEmptyStringCheck"/> -->
+
+    <!-- Avoid concatenating non-literals in a StringBuffer constructor or append() since intermediate buffers will need to be be created and destroyed by the JVM. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#inefficientstringbuffering -->
+    <!-- <exclude name="InefficientStringBuffering"/> -->
+
+    <!-- Failing to pre-size a StringBuffer or StringBuilder properly could cause it to re-size many times during runtime. This rule attempts to determine the total number the characters that are actually  passed into StringBuffer.append(), but represents a best guess "worst case" scenario. An empty StringBuffer/StringBuilder constructor initializes the object to 16 characters. This default is assumed if the length of the constructor can not be determined. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.6 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#insufficientstringbufferdeclaration -->
+    <!-- <exclude name="InsufficientStringBufferDeclaration"/> -->
+
+    <!-- Calling new Integer() causes memory allocation that can be avoided by the static Integer.valueOf(). It makes use of an internal cache that recycles earlier instances making it more memory efficient. Note that new Integer() is deprecated since JDK 9 for that reason. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#integerinstantiation -->
+    <!-- <exclude name="IntegerInstantiation"/> -->
+
+    <!-- Calling new Long() causes memory allocation that can be avoided by the static Long.valueOf(). It makes use of an internal cache that recycles earlier instances making it more memory efficient. Note that new Long() is deprecated since JDK 9 for that reason. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#longinstantiation -->
+    <!-- <exclude name="LongInstantiation"/> -->
+
+    <!-- Minimum Language Version: Java 1.6 -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#optimizabletoarraycall -->
+    <!-- <exclude name="OptimizableToArrayCall"/> -->
+
+    <!-- Java will initialize fields with known default values so any explicit initialization of those same defaults is redundant and results in a larger class file (approximately three additional bytecode instructions per field). -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 5.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#redundantfieldinitializer -->
+    <!-- <exclude name="RedundantFieldInitializer"/> -->
+
+    <!-- Calling new Short() causes memory allocation that can be avoided by the static Short.valueOf(). It makes use of an internal cache that recycles earlier instances making it more memory efficient. Note that new Short() is deprecated since JDK 9 for that reason. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#shortinstantiation -->
+    <!-- <exclude name="ShortInstantiation"/> -->
+
+    <!-- Since it passes in a literal of length 1, calls to (string).startsWith can be rewritten using (string).charAt(0) at the expense of some readability. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#simplifystartswith -->
+    <!-- <exclude name="SimplifyStartsWith"/> -->
+
+    <!-- Avoid instantiating String objects; this is usually unnecessary since they are immutable and can be safely shared. -->
+    <!-- Priority: Medium High (2) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#stringinstantiation -->
+    <!-- <exclude name="StringInstantiation"/> -->
+
+    <!-- Avoid calling toString() on objects already known to be string instances; this is unnecessary. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 1.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#stringtostring -->
+    <!-- <exclude name="StringToString"/> -->
+
+    <!-- Switch statements are intended to be used to support complex branching behaviour. Using a switch for only a few cases is ill-advised, since switches are not as easy to understand as if-then statements. In these cases use the if-then statement to increase code readability. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 4.2 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#toofewbranchesforaswitchstatement -->
+    <!-- <exclude name="TooFewBranchesForASwitchStatement"/> -->
+
+    <!-- Most wrapper classes provide static conversion methods that avoid the need to create intermediate objects just to create the primitive forms. Using these avoids the cost of creating objects that also need to be  garbage-collected later. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#unnecessarywrapperobjectcreation -->
+    <!-- <exclude name="UnnecessaryWrapperObjectCreation"/> -->
+
+    <!-- ArrayList is a much better Collection implementation than Vector if thread-safe operation is not required. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#usearraylistinsteadofvector -->
+    <!-- <exclude name="UseArrayListInsteadOfVector"/> -->
+
+    <!-- The java.util.Arrays class has a "asList" method that should be used when you want to create a new List from an array of objects. It is faster than executing a loop to copy all the elements of the array one by one. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#usearraysaslist -->
+    <!-- <exclude name="UseArraysAsList"/> -->
+
+    <!-- Use String.indexOf(char) when checking for the index of a single character; it executes faster. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.5 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#useindexofchar -->
+    <!-- <exclude name="UseIndexOfChar"/> -->
+
+    <!-- No need to call String.valueOf to append to a string; just use the valueOf() argument directly. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.8 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#uselessstringvalueof -->
+    <!-- <exclude name="UselessStringValueOf"/> -->
+
+    <!-- The use of the ‘+=’ operator for appending strings causes the JVM to create and use an internal StringBuffer. If a non-trivial number of these concatenations are being used then the explicit use of a StringBuilder or  threadsafe StringBuffer is recommended to avoid this. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.1 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#usestringbufferforstringappends -->
+    <!-- <exclude name="UseStringBufferForStringAppends"/> -->
+
+    <!-- Use StringBuffer.length() to determine StringBuffer length rather than using StringBuffer.toString().equals("") or StringBuffer.toString().length() == … -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 3.4 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_performance.html#usestringbufferlength -->
+    <!-- <exclude name="UseStringBufferLength"/> -->
+  </rule>
+
+  <!--https://pmd.github.io/latest/pmd_rules_java_security.html-->
+  <rule ref="category/java/security.xml">
+    <!-- Do not use hard coded values for cryptographic operations. Please store keys outside of source code. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.4.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_security.html#hardcodedcryptokey -->
+    <!-- <exclude name="HardCodedCryptoKey"/> -->
+
+    <!-- Do not use hard coded initialization vector in cryptographic operations. Please use a randomly generated IV. -->
+    <!-- Priority: Medium (3) -->
+    <!-- Since: PMD 6.3.0 -->
+    <!-- https://pmd.github.io/latest/pmd_rules_java_security.html#insecurecryptoiv -->
+    <!-- <exclude name="InsecureCryptoIv"/> -->
+  </rule>
+
+</ruleset>
